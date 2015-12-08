@@ -1,8 +1,11 @@
 <!DOCUTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="./css/game.css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="./css/game.css">
 	</head>
 	<body class="container">
 		<div id="message" class="modal fade">
@@ -16,7 +19,7 @@
 							<strong>Hight Score : </strong><span id="hightscore"></span>
 						</div>
 						<h5>History</h5>
-						<table id="history" class="table">
+						<table id="history" class="table table-sm">
 							<thead class="thead-inverse">
 								<tr>
 									<th>#</th>
@@ -28,7 +31,7 @@
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button id="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -36,12 +39,7 @@
 		<strong>Score : </strong><span id="score" class="label label-info">0</span>
 		<div id="bord" class="game-bord" style="height: 450px">
 		</div>
-		<div class="col-md-6 text-center">
-			<button id="stop" class="btn btn-primary">Stop</button>
-			<button id="start" class="btn btn-primary">Start</button>
-			<button id="reset" class="btn btn-primary">Reset</button>
-		</div>
-		<div class="col-md-6 text-center">
+		<div class="col-md-6 col-md-push-6 text-center">
 			<a id="up" class="btn btn-primary">-</a>
 			<div>
 				<a id="left" class="btn btn-primary">-</a>
@@ -49,6 +47,10 @@
 				<a id="right" class="btn btn-primary">-</a>
 			</div>
 			<a id="down" class="btn btn-primary">-</a>
+		</div>
+		<div class="col-md-6 col-md-pull-6 text-center">
+			<button id="stop" class="btn btn-primary">Stop</button>
+			<button id="start" class="btn btn-primary">Start</button>
 		</div>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>

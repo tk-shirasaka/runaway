@@ -2,7 +2,7 @@ var scoreUp	= null;
 $(function() {
 	var stat	= 0;
 	var game	= Game;
-	var player	= {id: 'player', maxSpeed: 0.5, accel: 0.2, object: null};
+	var player	= {id: 'player', maxSpeed: 1.5, accel: 0.2, object: null};
 	var count	= 0;
 	var prefix	= 'game_';
 	var score	= 0;
@@ -12,11 +12,11 @@ $(function() {
 	initGame(); 
 	scoreUp = function() {
 		if (stat !== 1) return;
-		var id				= prefix + score;
+		var id		= prefix + score;
+		var top		= Math.random() * (game.range.max.height - game.range.min.height) + game.range.min.height;
+		var left	= Math.random() * (game.range.max.width - game.range.min.width) + game.range.min.width;
 		game.newObject(id, {className: 'game game-circle'});
-		var element			= document.getElementById(id);
-		element.style.top		= Math.random() * 200;
-		element.style.left		= Math.random() * 800;
+		$("#" + id).css({top: top, left: left});
 		$('#score').text(++score);
 		game.moveSimple(id, Math.random() * 2, Math.random() * 2, true);
 		setTimeout('scoreUp()', 1000);
@@ -47,35 +47,31 @@ $(function() {
 				count++;
 				game.stop();
 				$('#message').modal('show');
-				$('#start').addClass('disabled');
-				$('#stop').addClass('disabled');
 				$('#history tbody').append('<tr><td>' + count + '</td><td>' + score + '</td></tr>');
 				if (score > high) {
 					$("#hightscore").text(score);
-					hight	= score;
+					high	= score;
 				}
 			}
 		);
-		var element			= document.getElementById(player.id);
-		element.style.top		= game.range.max.height - 40;
-		element.style.left		= game.range.max.width / 2;
+		$('#' + player.id).css({top: game.range.max.height - 40, left: (game.range.min.width + game.range.max.width) / 2});
 		player.object			= game.getObject(player.id);
 	};
 
 	function left() {
-		if (player.object.vector.w - player.accel >= player.maxSpeed * -1)
+		if (stat && player.object.vector.w - player.accel >= player.maxSpeed * -1)
 			game.moveLeft(player.id, player.accel, true);
 	}
 	function up() {
-		if (player.object.vector.h - player.accel >= player.maxSpeed * -1)
+		if (stat && player.object.vector.h - player.accel >= player.maxSpeed * -1)
 			game.moveUp(player.id, player.accel, true);
 	}
 	function down() {
-		if (player.object.vector.h + player.accel <= player.maxSpeed)
+		if (stat && player.object.vector.h + player.accel <= player.maxSpeed)
 			game.moveDown(player.id, player.accel, true);
 	}
 	function right() {
-		if (player.object.vector.w + player.accel <= player.maxSpeed)
+		if (stat && player.object.vector.w + player.accel <= player.maxSpeed)
 			game.moveRight(player.id, player.accel, true);
 	}
 	$('body').on('keydown', function(e) {
@@ -113,8 +109,6 @@ $(function() {
 		}
 		score	= 0;
 		stat	= 0;
-		$('#start').removeClass('disabled');
-		$('#stop').removeClass('disabled');
 		game.delObject(player.id);
 		initGame();
 	});
