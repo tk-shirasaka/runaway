@@ -2,30 +2,28 @@ var scoreUp	= null;
 $(function() {
 	var stat	= 0;
 	var game	= Game;
-	var player	= {id: "player", maxSpeed: 0.5, accel: 0.2, object: null};
+	var player	= {id: 'player', maxSpeed: 0.5, accel: 0.2, object: null};
 	var count	= 0;
-	var prefix	= "game_";
+	var prefix	= 'game_';
 	var score	= 0;
-	var scoreObject	= document.getElementById("score");
+	var high	= 0;
 
-	game.init("bord");
+	game.init('bord');
 	initGame(); 
 	scoreUp = function() {
-		if (stat === 0) return;
-		var id				= prefix + count;
-		game.newObject(id, {className: "game game-circle"});
+		if (stat !== 1) return;
+		var id				= prefix + score;
+		game.newObject(id, {className: 'game game-circle'});
 		var element			= document.getElementById(id);
 		element.style.top		= Math.random() * 200;
 		element.style.left		= Math.random() * 800;
-		score				+= 1;
-		scoreObject.innerText		= score;
-		count++;
+		$('#score').text(++score);
 		game.moveSimple(id, Math.random() * 2, Math.random() * 2, true);
-		setTimeout("scoreUp()", 1000);
+		setTimeout('scoreUp()', 1000);
 	};
 
 	function initGame() {
-		game.newObject(player.id, {className: "game game-circle game-color-primary"});
+		game.newObject(player.id, {className: 'game game-circle game-color-primary'});
 		game.setEvent(
 			player.id,
 			function(object1, object2) {
@@ -45,9 +43,17 @@ $(function() {
 				return false;
 			},
 			function(object1, object2) {
-				stat	= 0;
+				stat	= -1;
+				count++;
 				game.stop();
-				$("#message").modal('show');
+				$('#message').modal('show');
+				$('#start').addClass('disabled');
+				$('#stop').addClass('disabled');
+				$('#history tbody').append('<tr><td>' + count + '</td><td>' + score + '</td></tr>');
+				if (score > high) {
+					$("#hightscore").text(score);
+					hight	= score;
+				}
 			}
 		);
 		var element			= document.getElementById(player.id);
@@ -72,7 +78,7 @@ $(function() {
 		if (player.object.vector.w + player.accel <= player.maxSpeed)
 			game.moveRight(player.id, player.accel, true);
 	}
-	$("body").on("keydown", function(e) {
+	$('body').on('keydown', function(e) {
 		switch (e.keyCode) {
 			case 37 :
 				left();
@@ -88,33 +94,37 @@ $(function() {
 				break;
 		}
 	});
-	$("#left").on('click', function() {
+	$('#left').on('click', function() {
 		left();
 	});
-	$("#up").on('click', function() {
+	$('#up').on('click', function() {
 		up();
 	});
-	$("#down").on('click', function() {
+	$('#down').on('click', function() {
 		down();
 	});
-	$("#right").on('click', function() {
+	$('#right').on('click', function() {
 		right();
 	});
-	$("#reset").on('click', function() {
-		for (var i = --count; i >= 0; i--) {
+	$('#reset').on('click', function() {
+		for (var i = --score; i >= 0; i--) {
 			var id	= prefix + i;
 			game.delObject(id);
 		}
 		score	= 0;
 		stat	= 0;
+		$('#start').removeClass('disabled');
+		$('#stop').removeClass('disabled');
 		game.delObject(player.id);
 		initGame();
 	});
-	$("#stop").on('click', function() {
-		stat	= 0;
-		game.stop();
+	$('#stop').on('click', function() {
+		if (stat > 0) {
+			stat	= 0;
+			game.stop();
+		}
 	});
-	$("#start").on('click', function() {
+	$('#start').on('click', function() {
 		if (!stat) {
 			stat	= 1;
 			game.start();

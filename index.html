@@ -4,7 +4,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/game.css">
 		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 	</head>
-	<body>
+	<body class="container">
 		<div id="message" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -12,26 +12,18 @@
 						<h4 class="modal-title">Game Over !!</h4>
 					</div>
 					<div class="modal-body">
-						<h5>Ranking</h5>
-						<table class="table">
+						<div class="alert alert-success">
+							<strong>Hight Score : </strong><span id="hightscore"></span>
+						</div>
+						<h5>History</h5>
+						<table id="history" class="table">
 							<thead class="thead-inverse">
 								<tr>
 									<th>#</th>
-									<th>Name</th>
 									<th>Score</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>test name</td>
-									<td>32</td>
-								</tr>
-								<tr class="table-info">
-									<td>2</td>
-									<td>Your name</td>
-									<td>28</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -41,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		<div>Score : <span id="score">0</span></div>
+		<strong>Score : </strong><span id="score" class="label label-info">0</span>
 		<div id="bord" class="game-bord" style="height: 450px">
 		</div>
 		<div class="col-md-6 text-center">
