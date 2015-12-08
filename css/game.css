@@ -4,18 +4,12 @@
 	border		: solid 1px #6b6b6b;
 }
 .game-color-primary {
-	background	: #ec6f6f;
-	border-color	: #ec6f6f;
+	background	: #ff419d;
+	border-color	: #ff419d;
 }
 .game-bord {
 	margin		: 1em 2em;
 	border		: 1px inset #dcdcdc;
-}
-.game-pull-right {
-	float		: right !important;
-}
-.game-pull-left {
-	float		: left !important;
 }
 .game-pull-center {
 	width		: 100%;
@@ -24,45 +18,8 @@
 	margin		: auto 0 !important;
 	text-align	: center;
 }
-.game-btn {
-	float		: left;
-	padding		: 0.5em;
-	margin		: 0.5em;
-	background	: #a0c2a8;
-	border		: outset 2px #638fac;
-	border-radius	: 4px;
-}
-.game-btn:hover {
-	background	: #b4d5c0;
-}
-.game-btn:active {
-	border		: inset 2px #638fac;
-}
 .game-circle {
 	width		: 15px;
 	height		: 15px;
 	border-radius	: 50%;
-}
-.game-modal {
-	display		: none;
-	z-index		: 1000;
-	top		: 0;
-	right		: 0;
-	left		: 0;
-	bottom		: 0;
-	margin		: auto;
-	width		: 60%;
-	height		: 60%;
-	background	: rgba(34, 34, 34, 0.8);
-	color		: #ececec;
-	border		: 1px inset #5c5c5c;
-	border-radius	: 4px;
-}
-.game-modal .game-modal-msg {
-	padding		: 1em 2em;
-}
-.game-modal .game-modal-ctrl {
-	position	: absolute;
-	bottom		: 0;
-	padding		: 1em 2em;
 }

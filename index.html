@@ -2,26 +2,64 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="./css/game.css">
+		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 	</head>
 	<body>
-		<div>Score : <span id="score">0</span></div>
-		<div id="bord" class="game-bord" style="height: 450px">
-			<div class="game game-modal" style="height: 60px">
-				<h3 class="game-modal-msg game-pull-center">Game Over !!</h3>
+		<div id="message" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Game Over !!</h4>
+					</div>
+					<div class="modal-body">
+						<h5>Ranking</h5>
+						<table class="table">
+							<thead class="thead-inverse">
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Score</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>test name</td>
+									<td>32</td>
+								</tr>
+								<tr class="table-info">
+									<td>2</td>
+									<td>Your name</td>
+									<td>28</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="game-pull-left">
-			<button id="stop" class="game-btn">Stop</button>
-			<button id="start" class="game-btn">Start</button>
-			<button id="reset" class="game-btn">Reset</button>
+		<div>Score : <span id="score">0</span></div>
+		<div id="bord" class="game-bord" style="height: 450px">
 		</div>
-		<div class="game-pull-right">
-			<button id="left" class="game-btn">Left</button>
-			<button id="up" class="game-btn">Up</button>
-			<button id="down" class="game-btn">Down</button>
-			<button id="right" class="game-btn">Right</button>
+		<div class="col-md-6 text-center">
+			<button id="stop" class="btn btn-primary">Stop</button>
+			<button id="start" class="btn btn-primary">Start</button>
+			<button id="reset" class="btn btn-primary">Reset</button>
+		</div>
+		<div class="col-md-6 text-center">
+			<a id="up" class="btn btn-primary">-</a>
+			<div>
+				<a id="left" class="btn btn-primary">-</a>
+				<a class="btn"></a>
+				<a id="right" class="btn btn-primary">-</a>
+			</div>
+			<a id="down" class="btn btn-primary">-</a>
 		</div>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="./js/game.js"></script>
 		<script type="text/javascript" src="./js/main.js"></script>
 	</body>

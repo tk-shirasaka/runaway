@@ -47,7 +47,7 @@ $(function() {
 			function(object1, object2) {
 				stat	= 0;
 				game.stop();
-				$(".game-modal").show();
+				$("#message").modal('show');
 			}
 		);
 		var element			= document.getElementById(player.id);
@@ -109,7 +109,6 @@ $(function() {
 		stat	= 0;
 		game.delObject(player.id);
 		initGame();
-		$(".game-modal").hide();
 	});
 	$("#stop").on('click', function() {
 		stat	= 0;
@@ -121,6 +120,5 @@ $(function() {
 			game.start();
 			scoreUp();
 		}
-		$(".game-modal").hide();
 	});
 });
