@@ -8,6 +8,7 @@
 	border-color	: #ff419d;
 }
 .game-bord {
+	position	: relative;
 	margin		: 1em 2em;
 	border		: 1px inset #dcdcdc;
 }

@@ -1,20 +1,19 @@
 var scoreUp	= null;
 $(function() {
 	var stat	= 0;
-	var game	= Game;
+	var game	= Game('bord');
 	var player	= {id: 'player', maxSpeed: 1.5, accel: 0.2, object: null};
 	var count	= 0;
 	var prefix	= 'game_';
 	var score	= 0;
 	var high	= 0;
 
-	game.init('bord');
 	initGame(); 
 	scoreUp = function() {
 		if (stat !== 1) return;
 		var id		= prefix + score;
-		var top		= Math.random() * (game.range.max.height - game.range.min.height) + game.range.min.height;
-		var left	= Math.random() * (game.range.max.width - game.range.min.width) + game.range.min.width;
+		var top		= Math.random() * game.max.height;
+		var left	= Math.random() * game.max.width;
 		game.newObject(id, {className: 'game game-circle'});
 		$("#" + id).css({top: top, left: left});
 		$('#score').text(++score);
@@ -54,9 +53,23 @@ $(function() {
 				}
 			}
 		);
-		$('#' + player.id).css({top: game.range.max.height - 40, left: (game.range.min.width + game.range.max.width) / 2});
+		$('#' + player.id).css({top: game.max.height - 40, left: game.max.width / 2});
 		player.object			= game.getObject(player.id);
 	};
+
+	/**
+	 * asobi
+	 */
+	var asobi	= Game('navigation');
+	asobi.setObject('start');
+	asobi.moveRight('start', 1, true);
+	asobi.moveUp('start', 1, true);
+	$('#start').on('mouseenter', function() {
+		asobi.start();
+	})
+	$('#start').on('mouseleave', function() {
+		asobi.stop();
+	})
 
 	function left() {
 		if (stat && player.object.vector.w - player.accel >= player.maxSpeed * -1)
