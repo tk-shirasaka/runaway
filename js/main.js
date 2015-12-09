@@ -62,13 +62,10 @@ $(function() {
 	 */
 	var asobi	= Game('navigation');
 	asobi.setObject('start');
-	asobi.moveRight('start', 1, true);
-	asobi.moveUp('start', 1, true);
+	asobi.move('start', 0, 0, 0, 0, 0.2, 0.2, true);
 	$('#start').on('mouseenter', function() {
+		asobi.move('start', (Math.random() - 1) * 10, (Math.random() - 1) * 10, 0, 0, 0, 0, true);
 		asobi.start();
-	})
-	$('#start').on('mouseleave', function() {
-		asobi.stop();
 	})
 
 	function left() {
