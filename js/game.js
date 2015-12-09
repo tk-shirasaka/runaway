@@ -44,6 +44,8 @@ function Game(id) {
 			h		+= Number(object.vector.h);
 			object.vector.w	+= Number(object.accel.w);
 			object.vector.h	+= Number(object.accel.h);
+			if (object.accel.w > Math.abs(object.vector.w)) object.accel.w *= 0.9;
+			if (object.accel.h > Math.abs(object.vector.h)) object.accel.h *= 0.9;
 			if (object.brake.w > Math.abs(object.vector.w)) object.vector.w = 0; 
 			if (object.brake.h > Math.abs(object.vector.h)) object.vector.h = 0; 
 			if (object.brake.w && object.vector.w > 0) object.vector.w -= Number(object.brake.w); 
@@ -142,7 +144,7 @@ function Game(id) {
 		this.moveSimple(id, speed, 0, isBound);
 	};
 	self.moveFall		= function(id, wSpeed, hSpeed) {
-		this.move(id, wSpeed, hSpeed, 0, 0.4, 0.05, 0, true);
+		this.move(id, wSpeed, hSpeed, 0, 0.4, 0.03, 0, true);
 	};
 	self.stop			= function() {
 		this._stat	= 0;
