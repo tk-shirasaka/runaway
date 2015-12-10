@@ -25,10 +25,6 @@ function Game(id) {
 	self._move			= function(id, self) {
 		var object	= self._objects[id];
 		if (!object) return;
-		for (var i in self._checkTouch) {
-			if (i === id) continue;
-			if (self._objects[i]) self._checkTouch[i](object, self._objects[i]);
-		}
 		if (self._stat === 0 || object.stat === 0) {
 			self._stack[id] = object;
 			return;
@@ -74,6 +70,10 @@ function Game(id) {
 			object.element.style.left	= self._setUnit(w);
 			setTimeout(self._move, self.reflesh, id, self);
 		}
+		for (var i in self._checkTouch) {
+			if (i === id) continue;
+			if (self._objects[i]) self._checkTouch[i](object, self._objects[i]);
+		}
 	};
 	self.newObject		= function(id, attr) {
 		var element		= document.createElement("div");
@@ -107,7 +107,7 @@ function Game(id) {
 		return this._objects[id];
 	};
 	self.setEvent		= function(id, check, callBack) {
-		this._checkTouch[id] = function(object1, object2) {if (check(object1, object2)) callBack(object1, object2);};
+		this._checkTouch[id] = function(object1, object2) {if (check(object1, object2, this)) callBack(object1, object2, self);};
 	};
 	self.move			= function(id, wVector, hVector, wAccel, hAccel, wBrake, hBrake, isBound) {
 		var object		= this._objects[id];
