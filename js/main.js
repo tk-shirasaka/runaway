@@ -58,6 +58,44 @@ $(function() {
 	};
 
 	/**
+	 * title
+	 */
+	var title	= Game('title');
+	title.start();
+	titleView(9);
+	function titleView(i) {
+		var id	= 'title_' + i;
+		$('#' + id).removeClass('invisible');
+		title.setObject(id);
+		title.setEvent(
+			id,
+			function(object1, object2) {
+				var start1	= game._rmUnit(object1.element.style.left);
+				var end1	= start1 + object1.w;
+				var start2	= game._rmUnit(object2.element.style.left);
+				var end2	= start2 + object2.w;
+				if (start1 < end2 && start2 < end1) return true;
+				return false;
+			},
+			function(object1, object2) {
+				var diff	= Math.abs(Math.abs(object1.vector.w) - Math.abs(object2.vector.w));
+				var sign1	= (object1.vector.w > 0);
+				var sign2	= (object2.vector.w > 0);
+				var start1	= game._rmUnit(object1.element.style.left);
+				var start2	= game._rmUnit(object2.element.style.left);
+				object1.vector.w = Math.abs(object1.vector.w);
+				object2.vector.w = Math.abs(object2.vector.w);
+				object1.vector.w = ((sign1 != sign2) || (sign1 && start1 < start2) || (!sign1 && start1 > start2)) ? Math.abs(object1.vector.w - diff) : object1.vector.w + diff;
+				object2.vector.w = ((sign1 != sign2) || (sign2 && start2 < start1) || (!sign2 && start2 > start1)) ? Math.abs(object2.vector.w - diff) : object2.vector.w + diff;
+				if ((!sign1 && sign1 == sign2) || (sign1 && sign1 != sign2)) object1.vector.w *= -1;
+				if ((!sign2 && sign1 == sign2) || (sign2 && sign1 != sign2)) object2.vector.w *= -1;
+			}
+		);
+		title.move(id, 5, 0, 0, 0, 0.01, 0, true);
+		if (i > 0) setTimeout(titleView, 300, --i);
+	}
+
+	/**
 	 * asobi
 	 */
 	var asobi	= Game('navigation');

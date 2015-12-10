@@ -1,26 +1,19 @@
 .game {
 	position	: absolute;
-	background	: #6b6b6b;
-	border		: solid 1px #6b6b6b;
 }
 .game-color-primary {
-	background	: #ff419d;
-	border-color	: #ff419d;
+	background	: #ff419d !important;
+	border-color	: #ff419d !important;
 }
 .game-bord {
 	position	: relative;
 	margin		: 1em 2em;
 	border		: 1px inset #dcdcdc;
 }
-.game-pull-center {
-	width		: 100%;
-	padding-left	: 0 !important;
-	padding-right	: 0 !important;
-	margin		: auto 0 !important;
-	text-align	: center;
-}
 .game-circle {
-	width		: 15px;
-	height		: 15px;
+	min-width	: 15px;
+	min-height	: 15px;
+	background	: #6b6b6b;
+	border		: solid 1px #6b6b6b;
 	border-radius	: 50%;
 }

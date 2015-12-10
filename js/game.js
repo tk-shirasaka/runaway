@@ -99,8 +99,8 @@ function Game(id) {
 		object.element		= document.getElementById(id);
 		object.w		= this._getWidth(id);
 		object.h		= this._getHeight(id);
-		object.limit.w		= this.max.width - object.w;
-		object.limit.h		= this.max.height - object.h;
+		object.limit.w		= Math.max(0, this.max.width - object.w);
+		object.limit.h		= Math.max(0, this.max.height - object.h);
 		this._objects[id]	= object;
 	};
 	self.getObject		= function(id) {
