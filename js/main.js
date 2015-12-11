@@ -26,20 +26,7 @@ $(function() {
 		game.setEvent(
 			player.id,
 			function(object1, object2) {
-				var range	= 2;
-				var wStart1	= game._rmUnit(object1.element.style.left) + range;
-				var wEnd1	= wStart1 + object1.w - (range * 2);
-				var hStart1	= game._rmUnit(object1.element.style.top) + range;
-				var hEnd1	= hStart1 + object1.h - (range * 2);
-				var wStart2	= game._rmUnit(object2.element.style.left) + range;
-				var wEnd2	= wStart2 + object2.w - (range * 2);
-				var hStart2	= game._rmUnit(object2.element.style.top) + range;
-				var hEnd2	= hStart2 + object2.h - (range * 2);
-				if ((wStart1 < wEnd2 && wStart2 < wEnd1) &&
-				(hStart1 < hEnd2 && hStart2 < hEnd1)) {
-					return true;
-				}
-				return false;
+				return game.simpleCheck(object1, object2, 2);
 			},
 			function(object1, object2) {
 				stat	= -1;
@@ -69,32 +56,14 @@ $(function() {
 		title.setObject(id);
 		title.setEvent(
 			id,
-			function(object1, object2, self) {
-				var start1	= game._rmUnit(object1.element.style.left);
-				var end1	= start1 + object1.w;
-				var start2	= game._rmUnit(object2.element.style.left);
-				var end2	= start2 + object2.w;
-				if (start1 <= end2 && start2 <= end1) return true;
-				return false;
+			function(object1, object2) {
+				return title.simpleCheck(object1, object2, 0);
 			},
-			function(object1, object2, self) {
-				var diff		= Math.abs(Math.abs(object1.vector.w) - Math.abs(object2.vector.w));
-				var sign1		= (object1.vector.w > 0);
-				var sign2		= (object2.vector.w > 0);
-				var start1		= game._rmUnit(object1.element.style.left);
-				var start2		= game._rmUnit(object2.element.style.left);
-				if (object1.vector.w == 0 || object2.vector.w == 0) diff *= 0.6;
-				object1.vector.w	= Math.abs(object1.vector.w);
-				object2.vector.w	= Math.abs(object2.vector.w);
-				object1.vector.w	= ((sign1 != sign2) || (sign1 && start1 < start2) || (!sign1 && start1 > start2)) ? Math.abs(object1.vector.w - diff) : object1.vector.w + diff;
-				object2.vector.w	= ((sign1 != sign2) || (sign2 && start2 < start1) || (!sign2 && start2 > start1)) ? Math.abs(object2.vector.w - diff) : object2.vector.w + diff;
-				if ((!sign1 && (sign1 == sign2 || start1 < start2)) || (sign1 && sign1 != sign2 && start1 < start2)) object1.vector.w *= -1;
-				if ((!sign2 && (sign1 == sign2 || start2 < start1)) || (sign2 && sign1 != sign2 && start2 < start1)) object2.vector.w *= -1;
-				self.move(object1.id, 0, 0, 0, 0, 0, 0, true);
-				self.move(object2.id, 0, 0, 0, 0, 0, 0, true);
+			function(object1, object2) {
+				title.putBound(object1, object2, 'w');
 			}
 		);
-		title.move(id, 8, 0, 0, 0, 0.02, 0, true);
+		title.move(id, 10, 0, 0, 0, 0.02, 0, true);
 		if (i > 0) setTimeout(titleView, 300, --i);
 	}
 
