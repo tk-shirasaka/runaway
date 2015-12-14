@@ -5,68 +5,75 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<link rel="stylesheet" type="text/css" href="./css/game.css">
-		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
 	</head>
 	<body class="container">
-		<h1 id="title" class="col-md-12 display-1">
-			<div class="invisible">-</div>
-			<div id="title_0" class="game invisible">S</div>
-			<div id="title_1" class="game invisible">i</div>
-			<div id="title_2" class="game invisible">m</div>
-			<div id="title_3" class="game invisible">p</div>
-			<div id="title_4" class="game invisible">l</div>
-			<div id="title_5" class="game invisible">e</div>
-			<div id="title_6" class="game invisible">G</div>
-			<div id="title_7" class="game invisible">a</div>
-			<div id="title_8" class="game invisible">m</div>
-			<div id="title_9" class="game invisible">e</div>
-		</h1>
-		<div id="message" class="modal fade">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Game Over !!</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-success">
-							<strong>Hight Score : </strong><span id="hightscore"></span>
+		<div class="container">
+			<div class="row">
+				<nav class="navbar navbar-dark bg-inverse">
+					<h1 id="title" class="col-md-10 display-6">
+						<div class="invisible">-</div>
+						<div id="title_0" class="game invisible">S</div>
+						<div id="title_1" class="game invisible">i</div>
+						<div id="title_2" class="game invisible">m</div>
+						<div id="title_3" class="game invisible">p</div>
+						<div id="title_4" class="game invisible">l</div>
+						<div id="title_5" class="game invisible">e</div>
+						<div id="title_6" class="game invisible">G</div>
+						<div id="title_7" class="game invisible">a</div>
+						<div id="title_8" class="game invisible">m</div>
+						<div id="title_9" class="game invisible">e</div>
+					</h1>
+					<button class="btn btn-success-outline" type="submit" data-toggle="modal" data-target="#message">History</button>
+				</nav>
+				<div id="message" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Game Over !!</h4>
+							</div>
+							<div class="modal-body">
+								<div class="alert alert-success">
+									<strong>Hight Score : </strong><span id="hightscore"></span>
+								</div>
+								<h5>History</h5>
+								<table id="history" class="table table-sm">
+									<thead class="thead-inverse">
+										<tr>
+											<th>#</th>
+											<th>Score</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button id="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
 						</div>
-						<h5>History</h5>
-						<table id="history" class="table table-sm">
-							<thead class="thead-inverse">
-								<tr>
-									<th>#</th>
-									<th>Score</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
 					</div>
-					<div class="modal-footer">
-						<button id="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+				<strong>Score : </strong><span id="score" class="label label-info">0</span>
+				<div id="bord" class="game-bord" style="height: 450px">
+				</div>
+				<div class="col-md-6 col-md-push-6 text-md-center">
+					<a id="up" class="btn btn-primary">-</a>
+					<div>
+						<a id="left" class="btn btn-primary">-</a>
+						<a class="btn"></a>
+						<a id="right" class="btn btn-primary">-</a>
 					</div>
+					<a id="down" class="btn btn-primary">-</a>
+				</div>
+				<div id="navigation" class="col-md-6 col-md-pull-6 text-center"  style="height: 150px">
+					<button id="stop" class="btn btn-primary">Stop</button>
+					<button id="start" class="game btn btn-primary" style="top: 0; left: 0;">Let's try !</button>
 				</div>
 			</div>
 		</div>
-		<strong>Score : </strong><span id="score" class="label label-info">0</span>
-		<div id="bord" class="game-bord" style="height: 450px">
-		</div>
-		<div class="col-md-6 col-md-push-6 text-center">
-			<a id="up" class="btn btn-primary">-</a>
-			<div>
-				<a id="left" class="btn btn-primary">-</a>
-				<a class="btn"></a>
-				<a id="right" class="btn btn-primary">-</a>
-			</div>
-			<a id="down" class="btn btn-primary">-</a>
-		</div>
-		<div id="navigation" class="col-md-6 col-md-pull-6 text-center"  style="height: 150px">
-			<button id="stop" class="btn btn-primary">Stop</button>
-			<button id="start" class="game btn btn-primary" style="top: 0; left: 0;">Let's try !</button>
-		</div>
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="./js/game.js"></script>
 		<script type="text/javascript" src="./js/main.js"></script>
 	</body>

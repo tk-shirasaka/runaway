@@ -41,7 +41,7 @@ $(function() {
 			}
 		);
 		$('#' + player.id).css({top: game.max.height - 40, left: game.max.width / 2});
-		player.object			= game.getObject(player.id);
+		player.object	= game.getObject(player.id);
 	};
 
 	/**
@@ -122,7 +122,7 @@ $(function() {
 	$('#right').on('click', function() {
 		right();
 	});
-	$('#reset').on('click', function() {
+	$('#message').on('click', function() {
 		for (var i = --score; i >= 0; i--) {
 			var id	= prefix + i;
 			game.delObject(id);

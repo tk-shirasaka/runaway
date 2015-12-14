@@ -22,7 +22,7 @@ function Game(id) {
 		var element	= document.getElementById(id);
 		return element.offsetHeight;
 	};
-	self._move			= function(id, self) {
+	self._move		= function(id, self) {
 		var object	= self._objects[id];
 		if (!object) return;
 		if (self._stat === 0 || object.stat === 0) {
@@ -71,8 +71,7 @@ function Game(id) {
 			setTimeout(self._move, self.reflesh, id, self);
 		}
 		for (var i in self._checkTouch) {
-			if (i === id) continue;
-			if (self._objects[i]) self._checkTouch[i](object, self._objects[i]);
+			if (i !== id && self._objects[i]) self._checkTouch[i](object, self._objects[i]);
 		}
 	};
 	self.newObject		= function(id, attr) {
@@ -110,16 +109,17 @@ function Game(id) {
 		this._checkTouch[id] = function(object1, object2) {if (check(object1, object2)) callBack(object1, object2);};
 	};
 	self.putBound		= function(object1, object2, type) {
-		var v1		= Math.abs(object1.vector[type]);
-		var v2		= Math.abs(object2.vector[type]);
+		var v1			= Math.abs(object1.vector[type]);
+		var v2			= Math.abs(object2.vector[type]);
 		var diff		= Math.abs(v1 - v2);
 		var sign1		= (object1.vector[type] === 0) ? 0 : (object1.vector[type] < 0) ? -1 : 1;
 		var sign2		= (object2.vector[type] === 0) ? 0 : (object2.vector[type] < 0) ? -1 : 1;
-		var start1		= this._rmUnit(object1.element.style.left);
-		var start2		= this._rmUnit(object2.element.style.left);
+		var start1		= this._rmUnit((type === "w") ? object1.element.style.left : object1.element.style.top);
+		var start2		= this._rmUnit((type === "w") ? object2.element.style.left : object2.element.style.top);
 		var end1		= start1 + object1[type];
 		var end2		= start2 + object2[type];
 		if (sign1 === 0 || sign2 === 0 || diff > v1 || diff > v2) diff *= 0.6;
+		if (sign1 !== sign2) diff = Math.max(v1, v2, diff) * 0.6;
 		if ((sign1 === 0 && ((sign2 > 0 && start1 > start2) || (sign2 < 0 && start1 < start2))) ||
 			(sign2 === 0 && ((sign1 > 0 && start1 < start2) || (sign1 < 0 && start1 > start2))) ||
 			(sign1 < 0 && sign2 < 0 && ((start1 < start2 && v1 < v2) || (start2 < start1 && v2 < v1))) ||
@@ -128,8 +128,8 @@ function Game(id) {
 		) {
 			object1.vector[type]	= (sign1 !== sign2 || v1 > v2) ? Math.abs(v1 - diff) : v1 + diff;
 			object2.vector[type]	= (sign1 !== sign2 || v1 < v2) ? Math.abs(v2 - diff) : v2 + diff;
-			v1		= object1.vector[type]
-			v2		= object2.vector[type]
+			v1			= object1.vector[type]
+			v2			= object2.vector[type]
 		}
 		object1.vector[type]	= ((sign1 < 0 && (sign1 === sign2 || start1 < start2)) || (sign1 !== sign2 && start1 < start2)) ? v1 * -1 : v1;
 		object2.vector[type]	= ((sign2 < 0 && (sign1 === sign2 || start2 < start1)) || (sign1 !== sign2 && start2 < start1)) ? v2 * -1 : v2;
@@ -137,18 +137,15 @@ function Game(id) {
 		this.move(object2.id, 0, 0, 0, 0, 0, 0, true);
 	};
 	self.simpleCheck	= function(object1, object2, range) {
-		var wStart1	= this._rmUnit(object1.element.style.left) + range;
-		var wEnd1	= wStart1 + object1.w - (range * 2);
-		var hStart1	= this._rmUnit(object1.element.style.top) + range;
-		var hEnd1	= hStart1 + object1.h - (range * 2);
-		var wStart2	= this._rmUnit(object2.element.style.left) + range;
-		var wEnd2	= wStart2 + object2.w - (range * 2);
-		var hStart2	= this._rmUnit(object2.element.style.top) + range;
-		var hEnd2	= hStart2 + object2.h - (range * 2);
-		if ((wStart1 < wEnd2 && wStart2 < wEnd1) &&
-		(hStart1 < hEnd2 && hStart2 < hEnd1)) {
-			return true;
-		}
+		var wStart1		= this._rmUnit(object1.element.style.left) + range;
+		var wEnd1		= wStart1 + object1.w - (range * 2);
+		var hStart1		= this._rmUnit(object1.element.style.top) + range;
+		var hEnd1		= hStart1 + object1.h - (range * 2);
+		var wStart2		= this._rmUnit(object2.element.style.left) + range;
+		var wEnd2		= wStart2 + object2.w - (range * 2);
+		var hStart2		= this._rmUnit(object2.element.style.top) + range;
+		var hEnd2		= hStart2 + object2.h - (range * 2);
+		if ((wStart1 < wEnd2 && wStart2 < wEnd1) && (hStart1 < hEnd2 && hStart2 < hEnd1)) return true;
 		return false;
 	};
 	self.move			= function(id, wVector, hVector, wAccel, hAccel, wBrake, hBrake, isBound) {
@@ -201,12 +198,12 @@ function Game(id) {
 	};
 	self._objects		= {};
 	self._checkTouch	= {};
-	self._stack			= {};
-	self._stat			= 0;
-	self._round			= 0.0001;
-	self._bord			= document.getElementById(id);
-	self.max			= {width: self._getWidth(id), height: self._getHeight(id)};
+	self._stack		= {};
+	self._stat		= 0;
+	self._round		= 0.0001;
+	self._bord		= document.getElementById(id);
+	self.max		= {width: self._getWidth(id), height: self._getHeight(id)};
 	self.reflesh		= 10;
-	self.unit			= "px";
+	self.unit		= "px";
 	return self;
 };
