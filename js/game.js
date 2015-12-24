@@ -1,10 +1,16 @@
 function Game(id) {
 	var self			= {};
-	self._rmUnit		= function(value) {
-		return Number(value.replace(this.unit, ""));
+	self._rmUnit		= function(value, func, unit) {
+		if (!unit) unit = this.unit;
+		value		= value.replace(unit, "");
+		if (func) value = value.replace(func + "(", "").replace(")", "");
+		return Number(value);
 	};
-	self._setUnit		= function(value) {
-		return value + this.unit;
+	self._setUnit		= function(value, func, unit) {
+		if (!unit) unit = this.unit;
+		value		+= unit;
+		if (func) value = func + "(" + value + ")";
+		return value;
 	};
 	self._getLeft		= function(id) {
 		var element	= document.getElementById(id);
@@ -68,6 +74,7 @@ function Game(id) {
 			if (!object.isBound && (h === 0 || h === object.limit.h)) object.vector.h = 0;
 			object.element.style.top	= self._setUnit(h);
 			object.element.style.left	= self._setUnit(w);
+			object.element.style.transform	= self._setUnit(Math.atan2(object.vector.h, object.vector.w) / (Math.PI / 180), "rotate", "deg");
 			setTimeout(self._move, self.reflesh, id, self);
 		}
 		for (var i in self._checkTouch) {
@@ -154,10 +161,10 @@ function Game(id) {
 		object.isBound		= isBound;
 		object.vector.w		+= Number(wVector);
 		object.vector.h		+= Number(hVector);
-		object.accel.w		+= Number(wAccel);
-		object.accel.h		+= Number(hAccel);
-		object.brake.w		+= Number(wBrake);
-		object.brake.h		+= Number(hBrake);
+		if (wAccel) object.accel.w = Number(wAccel);
+		if (hAccel) object.accel.h = Number(hAccel);
+		if (wBrake) object.brake.w = Number(wBrake);
+		if (hBrake) object.brake.h = Number(hBrake);
 		if (this._rmUnit(object.element.style.left) > object.limit.w) object.element.style.left = object.limit.w;
 		if (this._rmUnit(object.element.style.left) < 0) object.element.style.left = 0;
 		if (this._rmUnit(object.element.style.top) > object.limit.h) object.element.style.top = object.limit.h;
