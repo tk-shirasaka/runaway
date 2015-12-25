@@ -35,53 +35,59 @@ function Game(id) {
 			self._stack[id] = object;
 			return;
 		}
-		if (!(Math.abs(object.vector.w) > self._round || Math.abs(object.vector.h) > self._round)) {
+		if (!(Math.abs(object.vector.x) > self._round || Math.abs(object.vector.y) > self._round)) {
 			object.stat	= 0;
 			return;
 		}
-		var w		= self._rmUnit(object.element.style.left);
-		var h		= self._rmUnit(object.element.style.top);
-		if (w >= 0 && w <= object.limit.w && h >= 0 && h <= object.limit.h) {
-			w		+= Number(object.vector.w);
-			h		+= Number(object.vector.h);
-			object.vector.w	+= Number(object.accel.w);
-			object.vector.h	+= Number(object.accel.h);
-			if (object.accel.w > Math.abs(object.vector.w)) object.accel.w *= 0.9;
-			if (object.accel.h > Math.abs(object.vector.h)) object.accel.h *= 0.9;
-			if (object.brake.w > Math.abs(object.vector.w)) object.vector.w = 0; 
-			if (object.brake.h > Math.abs(object.vector.h)) object.vector.h = 0; 
-			if (object.brake.w && object.vector.w > 0) object.vector.w -= Number(object.brake.w); 
-			if (object.brake.w && object.vector.w < 0) object.vector.w += Number(object.brake.w); 
-			if (object.brake.h && object.vector.h > 0) object.vector.h -= Number(object.brake.h); 
-			if (object.brake.h && object.vector.h < 0) object.vector.h += Number(object.brake.h); 
-			if (object.isBound && ((object.vector.w < 0 && object.accel.w <= 0 && w <= 0) || (object.vector.w > 0 && w >= object.limit.w))) {
-				offset	= (((object.vector.w < 0) ? 0 : object.limit.w) - w);
-				w	= (offset / 2) + ((object.vector.w < 0) ? 0 : object.limit.w);
-				object.vector.w	*= -1;
-				if (object.accel.w) object.vector.w *= object.accel.w;
+		var x		= self._rmUnit(object.element.style.left);
+		var y		= self._rmUnit(object.element.style.top);
+		if (x >= 0 && x <= object.limit.x && y >= 0 && y <= object.limit.y) {
+			x		+= Number(object.vector.x);
+			y		+= Number(object.vector.y);
+			object.vector.x	+= Number(object.accel.x);
+			object.vector.y	+= Number(object.accel.y);
+			if (object.accel.x > Math.abs(object.vector.x)) object.accel.x *= 0.9;
+			if (object.accel.y > Math.abs(object.vector.y)) object.accel.y *= 0.9;
+			if (object.brake.x > Math.abs(object.vector.x)) object.vector.x = 0; 
+			if (object.brake.y > Math.abs(object.vector.y)) object.vector.y = 0; 
+			if (object.brake.x && object.vector.x > 0) object.vector.x -= Number(object.brake.x); 
+			if (object.brake.x && object.vector.x < 0) object.vector.x += Number(object.brake.x); 
+			if (object.brake.y && object.vector.y > 0) object.vector.y -= Number(object.brake.y); 
+			if (object.brake.y && object.vector.y < 0) object.vector.y += Number(object.brake.y); 
+			if (object.isBound && ((object.vector.x < 0 && object.accel.x <= 0 && x <= 0) || (object.vector.x > 0 && x >= object.limit.x))) {
+				offset	= (((object.vector.x < 0) ? 0 : object.limit.x) - x);
+				x	= (offset / 2) + ((object.vector.x < 0) ? 0 : object.limit.x);
+				object.vector.x	*= -1;
+				if (object.accel.x) object.vector.x *= object.accel.x;
 			}
-			if (object.isBound && ((object.vector.h < 0 && object.accel.h <= 0 && h <= 0) || (object.vector.h > 0 && h >= object.limit.h))) {
-				offset	= (((object.vector.h < 0) ? 0 : object.limit.h) - h);
-				h	= (offset / 2) + ((object.vector.h < 0) ? 0 : object.limit.h);
-				object.vector.h	*= -1;
-				if (object.accel.h) object.vector.h *= object.accel.h;
+			if (object.isBound && ((object.vector.y < 0 && object.accel.y <= 0 && y <= 0) || (object.vector.y > 0 && y >= object.limit.y))) {
+				offset	= (((object.vector.y < 0) ? 0 : object.limit.y) - y);
+				y	= (offset / 2) + ((object.vector.y < 0) ? 0 : object.limit.y);
+				object.vector.y	*= -1;
+				if (object.accel.y) object.vector.y *= object.accel.y;
 			}
-			if (w < 0) w = 0;
-			if (w > object.limit.w) w = object.limit.w;
-			if (!object.isBound && (w === 0 || w === object.limit.w)) object.vector.w = 0;
-			if (h < 0) h = 0;
-			if (h > object.limit.h) h = object.limit.h;
-			if (!object.isBound && (h === 0 || h === object.limit.h)) object.vector.h = 0;
-			object.element.style.top	= self._setUnit(h);
-			object.element.style.left	= self._setUnit(w);
-			object.element.style.transform	= self._setUnit(Math.atan2(object.vector.h, object.vector.w) / (Math.PI / 180), "rotate", "deg");
+			if (x < 0) x = 0;
+			if (x > object.limit.x) x = object.limit.x;
+			if (!object.isBound && (x === 0 || x === object.limit.x)) object.vector.x = 0;
+			if (y < 0) y = 0;
+			if (y > object.limit.y) y = object.limit.y;
+			if (!object.isBound && (y === 0 || y === object.limit.y)) object.vector.y = 0;
+			object.element.style.top	= self._setUnit(y);
+			object.element.style.left	= self._setUnit(x);
 			setTimeout(self._move, self.reflesh, id, self);
+		}
+		if (!object.direction.fix && (object.vector.x || object.vector.y)) {
+			var limit	= Math.atan2(object.vector.y, object.vector.x) / (Math.PI / 180);
+			var now		= self._rmUnit(object.element.style.transform, "rotate", "deg");
+			var sign	= (limit < now) ? -1 : 1;
+			if (limit !== now && Math.abs(limit - now) < object.direction.span) now = limit - (object.direction.span * sign);
+			if (limit !== now) object.element.style.transform = self._setUnit(now + (object.direction.span * sign), "rotate", "deg");
 		}
 		for (var i in self._checkTouch) {
 			if (i !== id && self._objects[i]) self._checkTouch[i](object, self._objects[i]);
 		}
 	};
-	self.newObject		= function(id, attr) {
+	self.newObject		= function(id, attr, options) {
 		var element		= document.createElement("div");
 		var key			= null;
 		element.id		= id;
@@ -91,7 +97,7 @@ function Game(id) {
 			}
 		}
 		this._bord.appendChild(element);
-		this.setObject(id);
+		this.setObject(id, options);
 	};
 	self.delObject		= function(id) {
 		var object		= this._objects[id];
@@ -100,13 +106,32 @@ function Game(id) {
 		this._objects[id]	= null;
 		if (this._stack[id]) this._stack[id] = null;
 	};
-	self.setObject		= function(id) {
-		var object		= {id: id, element: null, w: 0, h: 0, limit: {w: 0, h: 0}, vector: {w: 0, h: 0}, accel: {w: 0, h: 0}, brake: {w: 0, h: 0}, isBound: null, stat: 0};
+	self.setObject		= function(id, options) {
+		var object		= {
+			id		: id,
+			element		: null,
+			x		: 0,
+			y		: 0,
+			limit		: {x: 0, y: 0},
+			vector		: {x: 0, y: 0},
+			accel		: {x: 0, y: 0},
+			brake		: {x: 0, y: 0},
+			isBound		: null,
+			stat		: 0,
+			direction	: {fix: 0, span: 2},
+		};
+
+		if (typeof options === "object") {
+			for (var i in options) {
+				object[i]	= options[i];
+			}
+		}
+
 		object.element		= document.getElementById(id);
-		object.w		= this._getWidth(id);
-		object.h		= this._getHeight(id);
-		object.limit.w		= Math.max(0, this.max.width - object.w);
-		object.limit.h		= Math.max(0, this.max.height - object.h);
+		object.x		= this._getWidth(id);
+		object.y		= this._getHeight(id);
+		object.limit.x		= Math.max(0, this.max.width - object.x);
+		object.limit.y		= Math.max(0, this.max.height - object.y);
 		this._objects[id]	= object;
 	};
 	self.getObject		= function(id) {
@@ -121,8 +146,8 @@ function Game(id) {
 		var diff		= Math.abs(v1 - v2);
 		var sign1		= (object1.vector[type] === 0) ? 0 : (object1.vector[type] < 0) ? -1 : 1;
 		var sign2		= (object2.vector[type] === 0) ? 0 : (object2.vector[type] < 0) ? -1 : 1;
-		var start1		= this._rmUnit((type === "w") ? object1.element.style.left : object1.element.style.top);
-		var start2		= this._rmUnit((type === "w") ? object2.element.style.left : object2.element.style.top);
+		var start1		= this._rmUnit((type === "x") ? object1.element.style.left : object1.element.style.top);
+		var start2		= this._rmUnit((type === "x") ? object2.element.style.left : object2.element.style.top);
 		var end1		= start1 + object1[type];
 		var end2		= start2 + object2[type];
 		if (sign1 === 0 || sign2 === 0 || diff > v1 || diff > v2) diff *= 0.6;
@@ -145,13 +170,13 @@ function Game(id) {
 	};
 	self.simpleCheck	= function(object1, object2, range) {
 		var wStart1		= this._rmUnit(object1.element.style.left) + range;
-		var wEnd1		= wStart1 + object1.w - (range * 2);
+		var wEnd1		= wStart1 + object1.x - (range * 2);
 		var hStart1		= this._rmUnit(object1.element.style.top) + range;
-		var hEnd1		= hStart1 + object1.h - (range * 2);
+		var hEnd1		= hStart1 + object1.y - (range * 2);
 		var wStart2		= this._rmUnit(object2.element.style.left) + range;
-		var wEnd2		= wStart2 + object2.w - (range * 2);
+		var wEnd2		= wStart2 + object2.x - (range * 2);
 		var hStart2		= this._rmUnit(object2.element.style.top) + range;
-		var hEnd2		= hStart2 + object2.h - (range * 2);
+		var hEnd2		= hStart2 + object2.y - (range * 2);
 		if ((wStart1 < wEnd2 && wStart2 < wEnd1) && (hStart1 < hEnd2 && hStart2 < hEnd1)) return true;
 		return false;
 	};
@@ -159,15 +184,15 @@ function Game(id) {
 		var object		= this._objects[id];
 		if (!object) return;
 		object.isBound		= isBound;
-		object.vector.w		+= Number(wVector);
-		object.vector.h		+= Number(hVector);
-		if (wAccel) object.accel.w = Number(wAccel);
-		if (hAccel) object.accel.h = Number(hAccel);
-		if (wBrake) object.brake.w = Number(wBrake);
-		if (hBrake) object.brake.h = Number(hBrake);
-		if (this._rmUnit(object.element.style.left) > object.limit.w) object.element.style.left = object.limit.w;
+		object.vector.x		+= Number(wVector);
+		object.vector.y		+= Number(hVector);
+		if (wAccel) object.accel.x = Number(wAccel);
+		if (hAccel) object.accel.y = Number(hAccel);
+		if (wBrake) object.brake.x = Number(wBrake);
+		if (hBrake) object.brake.y = Number(hBrake);
+		if (this._rmUnit(object.element.style.left) > object.limit.x) object.element.style.left = object.limit.x;
 		if (this._rmUnit(object.element.style.left) < 0) object.element.style.left = 0;
-		if (this._rmUnit(object.element.style.top) > object.limit.h) object.element.style.top = object.limit.h;
+		if (this._rmUnit(object.element.style.top) > object.limit.y) object.element.style.top = object.limit.y;
 		if (this._rmUnit(object.element.style.top) < 0) object.element.style.top = 0;
 		if (object.stat == 0) {
 			object.stat	= 1;

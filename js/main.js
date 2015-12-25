@@ -48,19 +48,19 @@ $(function() {
 	 * title
 	 */
 	var title	= Game('title');
+	var titleName	= 'SimpleGame';
 	title.start();
-	titleView(9);
+	titleView(titleName.length - 1);
 	function titleView(i) {
 		var id	= 'title_' + i;
-		$('#' + id).removeClass('invisible');
-		title.setObject(id);
+		title.newObject(id, {className: 'game', innerText: titleName[i]});
 		title.setEvent(
 			id,
 			function(object1, object2) {
 				return title.simpleCheck(object1, object2, 0);
 			},
 			function(object1, object2) {
-				title.putBound(object1, object2, 'w');
+				title.putBound(object1, object2, 'x')
 			}
 		);
 		title.move(id, 10, 0, 0, 0, 0.02, 0, true);
@@ -79,19 +79,19 @@ $(function() {
 	})
 
 	function left() {
-		if (stat && player.object.vector.w - player.accel >= player.maxSpeed * -1)
+		if (stat && player.object.vector.x - player.accel >= player.maxSpeed * -1)
 			game.moveLeft(player.id, player.accel, true);
 	}
 	function up() {
-		if (stat && player.object.vector.h - player.accel >= player.maxSpeed * -1)
+		if (stat && player.object.vector.y - player.accel >= player.maxSpeed * -1)
 			game.moveUp(player.id, player.accel, true);
 	}
 	function down() {
-		if (stat && player.object.vector.h + player.accel <= player.maxSpeed)
+		if (stat && player.object.vector.y + player.accel <= player.maxSpeed)
 			game.moveDown(player.id, player.accel, true);
 	}
 	function right() {
-		if (stat && player.object.vector.w + player.accel <= player.maxSpeed)
+		if (stat && player.object.vector.x + player.accel <= player.maxSpeed)
 			game.moveRight(player.id, player.accel, true);
 	}
 	$('body').on('keydown', function(e) {
