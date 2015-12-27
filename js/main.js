@@ -1,4 +1,3 @@
-var scoreUp	= null;
 $(function() {
 	var stat	= 0;
 	var game	= Game('bord');
@@ -9,7 +8,7 @@ $(function() {
 	var high	= 0;
 
 	initGame(); 
-	scoreUp = function() {
+	function scoreUp() {
 		if (stat !== 1) return;
 		var id		= prefix + score;
 		var top		= Math.random() * game.max.height;
@@ -18,7 +17,7 @@ $(function() {
 		$("#" + id).css({top: top, left: left});
 		$('#score').text(++score);
 		game.moveSimple(id, Math.random() * 2, Math.random() * 2, true);
-		setTimeout('scoreUp()', 1000);
+		setTimeout(scoreUp, 1000);
 	};
 
 	function initGame() {

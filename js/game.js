@@ -79,9 +79,19 @@ function Game(id) {
 		if (!object.direction.fix && (object.vector.x || object.vector.y)) {
 			var limit	= Math.atan2(object.vector.y, object.vector.x) / (Math.PI / 180);
 			var now		= self._rmUnit(object.element.style.transform, "rotate", "deg");
-			var sign	= (limit < now) ? -1 : 1;
-			if (limit !== now && Math.abs(limit - now) < object.direction.span) now = limit - (object.direction.span * sign);
-			if (limit !== now) object.element.style.transform = self._setUnit(now + (object.direction.span * sign), "rotate", "deg");
+			var sign	= 1;
+
+			if (limit > 180) limit = (limit - 360);
+			if (limit < -180) limit = (limit + 360);
+			if (now > 180) now = (now - 360);
+			if (now < -180) now = (now + 360);
+			if (limit < 0 && now < 0 && limit < now) sign = -1;
+			if (limit >= 0 && now >= 0 && limit < now) sign = -1;
+			if (limit < 0 && now >= 0 && Math.abs(limit - now) < 180) sign = -1;
+			if (limit >= 0 && now < 0 && Math.abs(limit - now) > 180) sign = -1;
+			if (Math.abs(limit - now) > 0.001 && Math.abs(limit - now) < object.direction.span) now = limit - (object.direction.span * sign);
+			if (Math.abs(limit - now) > 0.001)
+				object.element.style.transform = self._setUnit(now + (object.direction.span * sign), "rotate", "deg");
 		}
 		for (var i in self._checkTouch) {
 			if (i !== id && self._objects[i]) self._checkTouch[i](object, self._objects[i]);
