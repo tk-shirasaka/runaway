@@ -16,8 +16,24 @@ $(function() {
 		game.newObject(id, {className: 'game game-circle'});
 		$("#" + id).css({top: top, left: left});
 		$('#score').text(++score);
-		game.moveSimple(id, Math.random() * 2, Math.random() * 2, true);
-		setTimeout(scoreUp, 1000);
+		if ($('input[name="is-natural"]').prop('checked')) {
+			game.moveFall(id, Math.random() * 10, Math.random() * 10);
+		} else {
+			game.moveSimple(id, Math.random() * 2, Math.random() * 2, true);
+		}
+		if ($('input[name="is-reflection"]').prop('checked')) {
+			game.setEvent(
+				id,
+				function(object1, object2) {
+					return game.simpleCheck(object1, object2, 2);
+				},
+				function(object1, object2) {
+					game.putBound(object1, object2, 'x')
+					game.putBound(object1, object2, 'y')
+				}
+			);
+		}
+		setTimeout(scoreUp, $('input[name="speed"]:checked').val() * 1000);
 	};
 
 	function initGame() {
